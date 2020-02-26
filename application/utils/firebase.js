@@ -1,11 +1,12 @@
 // Exportamos la configuracion de firebase para tener acceso a ella en cualquier parte de la app que la necesitemos
 
 export default firebaseConfig = {
-    apiKey: "AIzaSyAISktg6Y7vBdktY-XPL87oZOc2O1QLkHE",
-    authDomain: "easyfood-caab6.firebaseapp.com",
-    databaseURL: "https://easyfood-caab6.firebaseio.com",
-    projectId: "easyfood-caab6",
-    storageBucket: "easyfood-caab6.appspot.com",
-    messagingSenderId: "929514100806",
-    appId: "1:929514100806:web:c7ee40ccea3d4ab6"
-  };
+  apiKey: "AIzaSyALZA1em7kBsgQX2GRo0pLmEXgtZhtt_BA",
+  authDomain: "nexo-89f10.firebaseapp.com",
+  databaseURL: "https://nexo-89f10.firebaseio.com",
+  projectId: "nexo-89f10",
+  storageBucket: "nexo-89f10.appspot.com",
+  messagingSenderId: "1011106191206",
+  appId: "1:1011106191206:web:9e1af3ed6dadee1ef15aa7",
+  measurementId: "G-W61FW27HHD"
+};

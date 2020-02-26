@@ -5,7 +5,7 @@ export default class BackgroundImage extends Component {
 	render () {
         /*
             children permite que todos los componentes que esten dentro de background
-            image sean renderizados de lo contrario, solo se renderizaria ImageBackground pero no su interior.
+            image sean renderizados, si no lo usamos solo se renderizaria ImageBackground pero no su interior.
         */
         const {source, children} = this.props; 
 		return (

@@ -6,7 +6,7 @@ import { Dimensions } from 'react-native'; // permite saber el ancho y el alto d
 export default class AppButton extends Component {
     render() {
         const { action, iconName, iconColor, title, bgColor } = this.props;
-        const { width } = Dimensions.get('window'); // 100% de la pantalla donde se abre la app
+        const { width } = Dimensions.get('window'); // 100% de la pantalla donde se abre la app. El objeto window tiene la prop width
         return (
             <Button
                 onPress={action} // evento requerido que recibe la accion pasada por props
@@ -22,13 +22,13 @@ export default class AppButton extends Component {
                     marginRight: 'auto',
                     // width: width // boton ocupa todo el ancho
                 }}
-                title={title} 
+                title={title}
                 icon={
                     <Icon
                         name={iconName}
                         size={15}
                         color={iconColor}
-                        style={{marginLeft: 8, marginBottom: -3}}
+                        style={{ marginLeft: 8, marginBottom: -3 }}
                     />
                 }
                 text={title} // texto que va a aparecer
