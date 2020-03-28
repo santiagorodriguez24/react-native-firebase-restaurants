@@ -5,7 +5,8 @@ import AppButton from "../components/AppButton";
 import { NavigationActions } from 'react-navigation'; // permite definir la navegacion hacia otras paginas como la de login y la de registro
 import Toast from 'react-native-simple-toast'; // permite mostrar una notificacion por ejemplo ante un inicio correcto o un error
 import * as firebase from 'firebase'; // permite que hagamos la autenticacion utilizando el servicio de firebase
-import facebook from '../utils/facebook';
+import facebookConfig from '../utils/facebook';
+import * as Facebook from 'expo-facebook';
 
 export default class Start extends Component {
 	// se define la propiedad title para mostrar en la cabecera de la navegacion
@@ -33,17 +34,27 @@ export default class Start extends Component {
     vez resuelta, el hilo de ejecución regresa a la funcion async para continuar donde se quedo. 
     */
 	async facebook() { // inicio de sesion mediante el perfil de facebook
-		const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-			facebook.config.application_id,
-			{ permissions: facebook.config.permissions }
-		);
-		// el type nos permite saber el resultado de la ejecucuion del metodo
+		let facebookResponse = {};
+		try {
+			await Facebook.initializeAsync(facebookConfig.config.application_id);
+			facebookResponse = await Facebook.logInWithReadPermissionsAsync(
+				{ permissions: facebookConfig.config.permissions }
+			);
+		} catch (error) {
+			console.log('catch error: ', error);
+		}
+
+		// el type nos permite saber el resultado de la ejecucion del metodo
+
+		console.log('on facebook response: ', facebookResponse);
+		const { type, token } = facebookResponse;
 
 		if (type === "success") { // Todo ha ido bien
-			const credentials = firebase.auth.FacebookAuthProvider.credential(token); /* credenciales que facebook devuelve para iniciar
-			sesion con credenciales en firebase */
+			// credenciales que facebook devuelve para iniciar sesion con credenciales en firebase
+			const credentials = firebase.auth.FacebookAuthProvider.credential(token);
 			firebase.auth().signInWithCredential(credentials)
 				.catch(error => {
+					console.log('catch error 2: ', error)
 					Toast.showWithGravity('Error accediendo con facebook', Toast.LONG, Toast.BOTTOM);
 				})
 		} else if (type === "cancel") { // usuario ha cancelado el inicio
@@ -55,7 +66,7 @@ export default class Start extends Component {
 
 	render() {
 		return (
-			<BackgroundImage source={require('../../assets/images/FondoFood-claro-2.png')}>
+			<BackgroundImage source={require('../../assets/images/FondoFood-Claro.png')}>
 				<View style={{ justifyContent: 'center', flex: 1 }}>
 					<AppButton
 						bgColor="rgba(111, 38, 74, 0.9)" // 3 primeros color de fondo, el 4to valor le agrega un poco de transparencia

@@ -12,23 +12,23 @@ const Form = t.form.Form; // tag html utilizado para montar el formulario
 export default class Login extends Component {
 
 	constructor() {
-		super(); // permite utilizar todo lo que nos ofrece la clase component
+		super();	// permite utilizar todo lo que nos ofrece la clase component
 
 		this.user = t.struct({	// se define la estructura que debe tener un objeto valido para este formulario
-			email: t.refinement(t.String, (s) => {    // se le pasa el tipo de dato que llegara y el valor 
-				return /@/.test(s);  // usando regex el texto pasado tiene que contener un arroba sino no sera valido. 
+			email: t.refinement(t.String, (s) => {	// se le pasa el tipo de dato que llegara y el valor 
+				return /@/.test(s);	// usando regex el texto pasado tiene que contener un arroba sino no sera valido. 
 			}),
 			password: t.refinement(t.String, (s) => {
-				return s.length >= 6;    // la contraseña debe tener como minimo 6 caracteres. 
+				return s.length >= 6;	// la contraseña debe tener como minimo 6 caracteres. 
 			})
 		});
 
-		this.options = {			// se definen los campos del formulario
+		this.options = {	// se definen los campos del formulario
 			fields: {
 				email: {
-					help: 'Introduce tu email',   // mensaje de ayuda al usuario, placeholder
-					error: 'Email incorrecto', // se muestra si el usuario hace submit y los datos enviados no pasan la validacion
-					autoCapitalize: 'none', // email no debe empezar con mayusculas o si se hace un espacio no aparece mayusculas
+					help: 'Introduce tu email',	// mensaje de ayuda al usuario, placeholder
+					error: 'Email incorrecto',	// se muestra si el usuario hace submit y los datos enviados no pasan la validacion
+					autoCapitalize: 'none',	// email no debe empezar con mayusculas o si se hace un espacio no aparece mayusculas
 				},
 				password: {
 					help: 'Introduce tu password',
@@ -76,7 +76,7 @@ export default class Login extends Component {
 
 	render() {
 		return (
-			<BackgroundImage source={require('../../assets/images/FondoFood-claro-2.png')}>
+			<BackgroundImage source={require('../../assets/images/FondoFood-Claro.png')}>
 				<View>
 					<Card wrapperStyle={{ paddingLeft: 10 }} title="Iniciar sesión">
 						<Form
