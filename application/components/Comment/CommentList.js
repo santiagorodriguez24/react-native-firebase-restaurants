@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PreLoader from "../PreLoader";
 import { StyleSheet, FlatList, View } from 'react-native';
-import { Card, Divider, Text } from "react-native-elements";
-import BackgroundImage from "../BackgroundImage";
+import { Card } from "react-native-elements";
 import * as firebase from 'firebase';
 import CommentEmpty from "./CommentEmpty";
 import Comment from "./Comment";
@@ -57,9 +56,7 @@ export default class CommentList extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Opiniones</Text>
-                <Divider style={styles.divider} />
-                <Card>
+                <Card title="Opiniones" titleStyle={styles.title}>
                     <FlatList
                         data={comments}
                         renderItem={(data) => this.renderComment(data.item)}
@@ -81,10 +78,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        color: 'white',
         textAlign: 'center'
-    },
-    divider: {
-        backgroundColor: 'red',
     }
 });

@@ -1,4 +1,3 @@
-import React from 'react';
 import t from 'tcomb-form-native';
 import sliderTemplate from './templates/slider';
 

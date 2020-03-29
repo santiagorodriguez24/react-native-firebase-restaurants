@@ -3,8 +3,8 @@ import RestaurantsScreen from "../screens/Restaurants/Restaurants";
 import AddRestaurantScreen from "../screens/Restaurants/AddRestaurant";
 import LogoutScreen from "../screens/Logout";
 import DetailRestaurantScreen from "../screens/Restaurants/DetailRestaurant";
-// import EditRestaurantScreen from "../screens/Restaurants/EditRestaurant";
-// import ProfileScreen from "../screens/Profile";
+import EditRestaurantScreen from "../screens/Restaurants/EditRestaurant";
+import ProfileScreen from "../screens/Profile";
 
 import { DrawerNavigator, StackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,7 +36,7 @@ const leftIcon = (navigation, icon) => <Icon
 /* Icono que permite ir al listado de restaurantes */
 const rightIcon = (navigation, icon) => <Icon
 	name={icon}
-	style={{ marginLeft: 20 }}
+	style={{ marginRight: 20 }}
 	size={30}
 	color="white"
 	onPress={() => navigation.navigate('ListRestaurants')}
@@ -75,31 +75,32 @@ const restaurantsScreenStack = StackNavigator(
 				headerLeft: leftIcon(navigation, 'bars'),
 			})
 		},
-		// 	EditRestaurant: {
-		// 		screen: EditRestaurantScreen,
-		// 		navigationOptions: ({ navigation }) => ({
-		// 			title: 'Editar restaurante',  // Title to appear in status bar
-		// 			headerRight: rightIcon(navigation, 'home'),
-		// 		})
-		// 	},
+		EditRestaurant: {
+			screen: EditRestaurantScreen,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Editar restaurante',  // Title to appear in status bar
+				headerRight: rightIcon(navigation, 'home'),
+			})
+		},
+	},
+	navigationOptions // Es necesario pasar esto aqui para que tome los estilos de la cabecera e iconos
+);
+
+
+const profileScreenStack = StackNavigator(
+	{
+		ProfileScreen: {
+			screen: ProfileScreen,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Perfil',
+				drawerIcon: ({ tintColor }) => (<Icon name="user" size={24} style={{ color: tintColor }} />),
+				headerLeft: leftIcon(navigation, 'bars'),
+				headerRight: rightIcon(navigation, 'home'),
+			})
+		}
 	},
 	navigationOptions
 );
-
-// const profileScreenStack = StackNavigator(
-// 	{
-// 		ProfileScreen: {
-// 			screen: ProfileScreen,
-// 			navigationOptions: ({ navigation }) => ({
-// 				title: 'Perfil',
-// 				drawerIcon: ({ tintColor }) => (<Icon name="user" size={24} style={{ color: tintColor }} />),
-// 				headerLeft: leftIcon(navigation, 'bars'),
-// 				headerRight: rightIcon(navigation, 'home'),
-// 			})
-// 		}
-// 	},
-// 	navigationOptions
-// );
 
 // definimos un stack navigator para cerrar sesion desde el side menu
 const logoutScreenStack = StackNavigator({
@@ -119,9 +120,9 @@ export default DrawerNavigator(
 		RestaurantsScreen: {
 			screen: restaurantsScreenStack
 		},
-		// ProfileScreen: {
-		// 	screen: profileScreenStack
-		// },
+		ProfileScreen: {
+			screen: profileScreenStack
+		},
 		LogoutScreen: {
 			screen: logoutScreenStack
 		}

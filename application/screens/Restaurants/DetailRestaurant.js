@@ -17,6 +17,7 @@ export default class DetailRestaurant extends Component {
     }
 
     editRestaurant() {
+        // mostramos el formulario para editar el restaurante
         const navigateAction = NavigationActions.navigate({
             routeName: 'EditRestaurant',
             params: { restaurant: this.state.restaurant }

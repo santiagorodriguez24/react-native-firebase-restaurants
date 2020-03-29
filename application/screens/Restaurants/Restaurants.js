@@ -69,8 +69,8 @@ export default class Restaurants extends Component {
                 leftAvatar={{ rounded: true, source: this.state.restaurant_logo }}
                 onPress={() => this.restaurantDetail(restaurant)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', iconStyle: styles.listIconStyle }}
-                // bottomDivider // solo se muestra en el primero nose porque
-                // chevron={{ color: 'white' }} // flechita a la derecha
+                bottomDivider // solo se muestra en el primero nose porque
+            // chevron={{ color: 'white' }} // flechita a la derecha
             />
         )
     }
@@ -99,6 +99,7 @@ export default class Restaurants extends Component {
                     data={restaurants}
                     // se ejecuta en cada iteracion sobre los elementos de data
                     renderItem={(data) => this.renderRestaurant(data.item)}
+                    // siempre que se use flatlist se debe añadir el keyExtractor para que le añada un key a cada uno de los items
                     keyExtractor={(data) => data.id}
                 />
 
@@ -115,11 +116,11 @@ const styles = StyleSheet.create({
     listIconStyle: {
         marginRight: 10,
         fontSize: 15,
-        color: 'rgba(255, 38, 74, 0.6)'
+        color: 'rgba(242,208,160, 0.6)'
     },
     item: {
         padding: 8,
-        backgroundColor: 'rgba(206, 206, 206, 0.9)',
+        backgroundColor: 'rgba(71,11,11, 0.9)',
         borderBottomColor: 'white',
         borderBottomWidth: 1,
     }
