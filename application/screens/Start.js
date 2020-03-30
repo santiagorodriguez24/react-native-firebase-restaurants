@@ -75,6 +75,7 @@ export default class Start extends Component {
 						iconName="sign-in"
 						iconSize={30}
 						iconColor="#fff"
+						setWidth={true}
 					/>
 					<AppButton
 						bgColor="rgba(200, 200, 50, 0.9)"
@@ -83,6 +84,7 @@ export default class Start extends Component {
 						iconName="user-plus"
 						iconSize={30}
 						iconColor="#fff"
+						setWidth={true}
 					/>
 					<AppButton
 						bgColor="rgba(67, 67, 146, 0.9)"
@@ -91,6 +93,7 @@ export default class Start extends Component {
 						iconName="facebook"
 						iconSize={30}
 						iconColor="#fff"
+						setWidth={true}
 					/>
 				</View>
 			</BackgroundImage>

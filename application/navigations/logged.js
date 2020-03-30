@@ -6,7 +6,7 @@ import DetailRestaurantScreen from "../screens/Restaurants/DetailRestaurant";
 import EditRestaurantScreen from "../screens/Restaurants/EditRestaurant";
 import ProfileScreen from "../screens/Profile";
 
-import { DrawerNavigator, StackNavigator } from "react-navigation";
+import { createDrawerNavigator, createStackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const navigationOptions = {
@@ -30,7 +30,7 @@ const leftIcon = (navigation, icon) => <Icon
 	style={{ marginLeft: 20 }}
 	size={20}
 	color="white"
-	onPress={() => navigation.navigate('DrawerOpen')}
+	onPress={() => navigation.openDrawer()}
 />;
 
 /* Icono que permite ir al listado de restaurantes */
@@ -47,14 +47,12 @@ Cuando definimos un stack navigator solo se renderiza en el side menu la primera
 El resto son navegaciones que existen anidadas dentro de listrestaurants pero que no se renderizan en el side menu. Se accede
 a ellas mediante algun boton. 
 */
-const restaurantsScreenStack = StackNavigator(
+const restaurantsScreenStack = createStackNavigator(
 	{
 		ListRestaurants: {
 			screen: RestaurantsScreen,
 			navigationOptions: ({ navigation }) => ({
 				title: 'Restaurantes',
-				// icono que se va a mostrar cuando se habra el sidemenu
-				drawerIcon: ({ tintColor }) => (<Icon name="home" size={24} style={{ color: tintColor }} />),
 				// icono a la izquierda que utilizara la navegacion pasada
 				headerLeft: leftIcon(navigation, 'bars')
 			})
@@ -87,13 +85,12 @@ const restaurantsScreenStack = StackNavigator(
 );
 
 
-const profileScreenStack = StackNavigator(
+const profileScreenStack = createStackNavigator(
 	{
 		ProfileScreen: {
 			screen: ProfileScreen,
 			navigationOptions: ({ navigation }) => ({
 				title: 'Perfil',
-				drawerIcon: ({ tintColor }) => (<Icon name="user" size={24} style={{ color: tintColor }} />),
 				headerLeft: leftIcon(navigation, 'bars'),
 				headerRight: rightIcon(navigation, 'home'),
 			})
@@ -103,28 +100,40 @@ const profileScreenStack = StackNavigator(
 );
 
 // definimos un stack navigator para cerrar sesion desde el side menu
-const logoutScreenStack = StackNavigator({
+const logoutScreenStack = createStackNavigator({
 	LogoutScreen: {
 		screen: LogoutScreen,
 		navigationOptions: ({ navigation }) => ({
 			// Las opciones como el title son pasadas aqui en lugar de ser definidas el componente como si se hizo en Start.js
-			title: 'Cerrar sesión',
-			drawerIcon: ({ tintColor }) => (<Icon name="sign-out" size={24} style={{ color: tintColor }} />)
+			title: 'Cerrar sesión'
 		})
 	}
 });
 
 // Definimos la navegacion del side menu
-export default DrawerNavigator(
+export default createDrawerNavigator(
 	{
 		RestaurantsScreen: {
-			screen: restaurantsScreenStack
+			screen: restaurantsScreenStack,
+			navigationOptions: ({ navigation }) => ({
+				drawerLabel: 'Restaurantes',
+				// icono que se va a mostrar cuando se habra el sidemenu
+				drawerIcon: ({ tintColor }) => (<Icon name="home" size={24} style={{ color: tintColor }} />)
+			})
 		},
 		ProfileScreen: {
-			screen: profileScreenStack
+			screen: profileScreenStack,
+			navigationOptions: ({ navigation }) => ({
+				drawerLabel: 'Perfil',
+				drawerIcon: ({ tintColor }) => (<Icon name="user" size={24} style={{ color: tintColor }} />)
+			})
 		},
 		LogoutScreen: {
-			screen: logoutScreenStack
+			screen: logoutScreenStack,
+			navigationOptions: ({ navigation }) => ({
+				drawerLabel: 'Cerrar sesión',
+				drawerIcon: ({ tintColor }) => (<Icon name="sign-out" size={24} style={{ color: tintColor }} />)
+			})
 		}
 	},
 	{

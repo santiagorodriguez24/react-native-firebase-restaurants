@@ -5,23 +5,33 @@ import { Dimensions } from 'react-native'; // permite saber el ancho y el alto d
 
 export default class AppButton extends Component {
     render() {
-        const { action, iconName, iconColor, title, bgColor } = this.props;
-        const { width } = Dimensions.get('window'); // 100% de la pantalla donde se abre la app. El objeto window tiene la prop width
+        const { action, iconName, iconColor, title, bgColor, setWidth } = this.props;
+        // Dimensions.get('window') 100% de la pantalla donde se abre la app. El objeto window tiene la prop width
+        const { width: windowWidth } = Dimensions.get('window');
+
+        const baseStyles = {
+            backgroundColor: bgColor,
+            height: 45,
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 5,
+            marginBottom: 8,
+
+        };
+
+        // si no se especifica el width el boton se ajusta al ancho disponible en su contenedor
+        if (setWidth) {
+            Object.assign(baseStyles, {
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: windowWidth * 0.95 // boton ocupa un 95% del ancho de la pantalla
+            })
+        }
+
         return (
             <Button
                 onPress={action} // evento requerido que recibe la accion pasada por props
-                buttonStyle={{
-                    backgroundColor: bgColor,
-                    height: 45,
-                    width: '95%',
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: 5,
-                    marginBottom: 8,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    // width: width // boton ocupa todo el ancho
-                }}
+                buttonStyle={baseStyles}
                 title={title}
                 icon={
                     <Icon
