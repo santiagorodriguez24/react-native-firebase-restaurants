@@ -1,3 +1,4 @@
+import React from 'react'; // aunque no sea utilizado tiene que estar en el contexto del archivo para evitar errores
 import t from 'tcomb-form-native';
 import sliderTemplate from './templates/slider';
 

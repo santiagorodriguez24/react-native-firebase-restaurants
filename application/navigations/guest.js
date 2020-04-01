@@ -1,10 +1,10 @@
 import React from 'react';
-import { createStackNavigator } from "react-navigation"; // permite navegar entre las paginas
+import { createStackNavigator, createAppContainer } from "react-navigation"; // permite navegar entre las paginas
 import StartScreen from "../screens/Start";
 import LoginScreen from "../screens/Login";
 import RegisterScreen from "../screens/Register";
 
-export default createStackNavigator(
+const guestStack = createStackNavigator(
 	{ // se pasan las pantallas a traves de las cuales navegar
 		Start: {
 			screen: StartScreen
@@ -18,7 +18,7 @@ export default createStackNavigator(
 	},
 	{
 		initialRouteName: 'Start', // nombre de primera ruta
-		navigationOptions: {
+		defaultNavigationOptions: {
 			headerStyle: {
 				backgroundColor: '#F3390B'
 			},
@@ -29,8 +29,11 @@ export default createStackNavigator(
 				marginLeft: 'auto',
 				fontSize: 20,
 				color: '#fff',
-				fontWeight: 'bold'
+				fontWeight: 'bold',
+				flex: 1
 			}
 		}
 	}
 )
+
+export default createAppContainer(guestStack);

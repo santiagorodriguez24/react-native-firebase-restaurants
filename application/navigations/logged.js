@@ -1,26 +1,33 @@
 import React from 'react';
+import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
+import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import RestaurantsScreen from "../screens/Restaurants/Restaurants";
 import AddRestaurantScreen from "../screens/Restaurants/AddRestaurant";
 import LogoutScreen from "../screens/Logout";
 import DetailRestaurantScreen from "../screens/Restaurants/DetailRestaurant";
 import EditRestaurantScreen from "../screens/Restaurants/EditRestaurant";
+import ReviewsRestaurant from "../screens/Restaurants/ReviewsRestaurant";
 import ProfileScreen from "../screens/Profile";
 
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const navigationOptions = {
-	navigationOptions: {
+	defaultNavigationOptions: {
 		headerStyle: {
 			backgroundColor: '#F3390B',
+			textAlign: 'center'
 		},
 		headerTitleStyle: {
 			textAlign: 'center',
-			alignSelf: 'center',
 			fontSize: 20,
-			color: '#fff',
-			fontWeight: 'bold'
-		}
+			color: 'white',
+			fontWeight: 'bold',
+			alignSelf: 'center',
+			flex: 1,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'center'
+		},
 	}
 };
 
@@ -37,7 +44,7 @@ const leftIcon = (navigation, icon) => <Icon
 const rightIcon = (navigation, icon) => <Icon
 	name={icon}
 	style={{ marginRight: 20 }}
-	size={30}
+	size={25}
 	color="white"
 	onPress={() => navigation.navigate('ListRestaurants')}
 />;
@@ -54,6 +61,7 @@ const restaurantsScreenStack = createStackNavigator(
 			navigationOptions: ({ navigation }) => ({
 				title: 'Restaurantes',
 				// icono a la izquierda que utilizara la navegacion pasada
+				headerRight: (<View></View>),
 				headerLeft: leftIcon(navigation, 'bars')
 			})
 		},
@@ -110,8 +118,22 @@ const logoutScreenStack = createStackNavigator({
 	}
 });
 
+const reviewsRestaurantScreenStack = createStackNavigator(
+	{
+		ReviewsRestaurant: {
+			screen: ReviewsRestaurant,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Valoraciones',
+				headerRight: rightIcon(navigation, 'home'),
+				headerLeft: leftIcon(navigation, 'bars'),
+			})
+		}
+	},
+	navigationOptions
+);
+
 // Definimos la navegacion del side menu
-export default createDrawerNavigator(
+const loggedDrawer = createDrawerNavigator(
 	{
 		RestaurantsScreen: {
 			screen: restaurantsScreenStack,
@@ -119,6 +141,13 @@ export default createDrawerNavigator(
 				drawerLabel: 'Restaurantes',
 				// icono que se va a mostrar cuando se habra el sidemenu
 				drawerIcon: ({ tintColor }) => (<Icon name="home" size={24} style={{ color: tintColor }} />)
+			})
+		},
+		ReviewsRestaurantScreen: {
+			screen: reviewsRestaurantScreenStack,
+			navigationOptions: ({ navigation }) => ({
+				drawerLabel: 'Valoraciones',
+				drawerIcon: ({ tintColor }) => (<Icon name="comments" size={30} style={{ color: tintColor }} />),
 			})
 		},
 		ProfileScreen: {
@@ -148,3 +177,5 @@ export default createDrawerNavigator(
 		},
 	}
 )
+
+export default createAppContainer(loggedDrawer)

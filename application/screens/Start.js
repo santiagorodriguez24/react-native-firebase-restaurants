@@ -41,12 +41,10 @@ export default class Start extends Component {
 				{ permissions: facebookConfig.config.permissions }
 			);
 		} catch (error) {
-			console.log('catch error: ', error);
+			console.log('Error al hacer login con facebook: ', error);
 		}
 
 		// el type nos permite saber el resultado de la ejecucion del metodo
-
-		console.log('on facebook response: ', facebookResponse);
 		const { type, token } = facebookResponse;
 
 		if (type === "success") { // Todo ha ido bien
@@ -54,7 +52,6 @@ export default class Start extends Component {
 			const credentials = firebase.auth.FacebookAuthProvider.credential(token);
 			firebase.auth().signInWithCredential(credentials)
 				.catch(error => {
-					console.log('catch error 2: ', error)
 					Toast.showWithGravity('Error accediendo con facebook', Toast.LONG, Toast.BOTTOM);
 				})
 		} else if (type === "cancel") { // usuario ha cancelado el inicio

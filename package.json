@@ -17,9 +17,10 @@
     "react-dom": "16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.1.tar.gz",
     "react-native-elements": "^1.2.7",
+    "react-native-picker-select": "^6.6.0",
     "react-native-simple-toast": "^1.0.0",
     "react-native-web": "^0.11.7",
-    "react-navigation": "^2.0.4",
+    "react-navigation": "^3.0.4",
     "tcomb-form-native": "^0.6.20"
   },
   "devDependencies": {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import BackgroundImage from "../../components/BackgroundImage";
 import PreLoader from "../../components/PreLoader";
-import { StyleSheet, FlatList, Image } from 'react-native';
-import { ListItem } from "react-native-elements";
+import { View, StyleSheet, FlatList } from 'react-native';
+import { ListItem, SearchBar, Divider } from "react-native-elements";
 import * as firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import RestaurantEmpty from "../../components/Restaurant/RestaurantEmpty";
@@ -14,14 +14,32 @@ export default class Restaurants extends Component {
         this.state = {
             restaurants: [],
             loaded: false,
-            restaurant_logo: require('../../../assets/images/burguer.png')
+            restaurant_logo: require('../../../assets/images/burguer.png'),
+            loading: false,
+            search: ''
         };
 
-        // referencia a la base de datos de firebase
-        this.refRestaurants = firebase.database().ref().child('restaurants');
+        //  ref={searchInput => this.search = searchInput}
+        // this.searchInput.focus();
+        // this.searchInput.blur();
+        // this.searchInput.clear();
+        // this.searchInput.cancel(); // Only available if `platform` props is "ios" | "android"
     }
 
     componentDidMount() {
+        const { search } = this.state;
+
+        if (!search) {
+            // referencia a todos los restaurantes de la base de datos de firebase cuando no hay una busqueda
+            this.refRestaurants = firebase.database().ref().child('restaurants');
+        } else {
+            this._filterRestaurants(search);
+        }
+
+        this._loadFirebaseRestaurants();
+    }
+
+    _loadFirebaseRestaurants() {
         this.refRestaurants.on('value', snapshot => {
             let restaurants = [];
             // en snapshot tenemos una copia de la lista de restaurantes guardada
@@ -37,9 +55,58 @@ export default class Restaurants extends Component {
 
             this.setState({
                 restaurants,
-                loaded: true // ya ha cargado la aplicacion.
+                loaded: true, // ya ha cargado la aplicacion.
+                loading: false
             });
-        })
+        });
+    }
+
+    searchRestaurants(search) {
+        // se pone la primera letra del texto buscado en mayusculas
+        this.setState({
+            search: search,
+            loading: search.length >= 3 ? true : false
+        });
+
+        // solo se busca cuando el texto ingresado tiene 3 o mas caracteres
+        if (search.length >= 3) {
+            // hace la busqueda y mete los resultados a la referencia
+            this._filterRestaurants(search);
+            // se actualiza el estado con los restaurantes devueltos
+            setTimeout(() => {
+                this._loadFirebaseRestaurants();
+            }, 1000);
+        } else if (search.length == 0) {
+            this.resetSearch();
+        }
+
+    }
+
+    resetSearch() {
+        this.setState({
+            search: ''
+        });
+        // la referencia de los restaurantes son todos los restaurantes
+        this.refRestaurants = firebase.database().ref().child('restaurants');
+        setTimeout(() => {
+            this._loadFirebaseRestaurants();
+        }, 1000);
+    }
+
+    _filterRestaurants(searchParam) {
+        let search = searchParam.charAt(0).toUpperCase() + searchParam.slice(1);
+
+        this.refRestaurants = firebase.database().ref().child('restaurants')
+            .orderByChild('name') // ordena por nombre
+            .startAt(search) // El nombre del restaurante debe empezar con el testo pasado en search
+            .endAt(`${search}\uf8ff`); // el nombre puede continuar con cualquier caracter luego del texto en search
+
+        /*
+        El carácter \uf8ff utilizado en la consulta es un punto de código muy alto en el rango Unicode 
+        (es un código de Área de uso privada [PUA]). 
+        Debido a que está después de la mayoría de los caracteres regulares en Unicode, la consulta coincide con 
+        todos los valores que comienzan con la variable de la consulta.
+        */
     }
 
     addRestaurant() {
@@ -65,26 +132,43 @@ export default class Restaurants extends Component {
             <ListItem
                 containerStyle={styles.item}
                 titleStyle={styles.title}
-                title={`${restaurant.name} (Capacidad: ${restaurant.capacity})`}
+                title={restaurant.name}
+                subtitle={`(Capacidad: ${restaurant.capacity})`}
+                subtitleStyle={{ color: 'white' }}
                 leftAvatar={{ rounded: true, source: this.state.restaurant_logo }}
                 onPress={() => this.restaurantDetail(restaurant)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', iconStyle: styles.listIconStyle }}
-                bottomDivider // solo se muestra en el primero nose porque
-            // chevron={{ color: 'white' }} // flechita a la derecha
             />
         )
     }
 
+    FlatListItemSeparator = () => <View style={styles.line} />;
+
     render() {
-        const { loaded, restaurants } = this.state;
+        const { loaded, restaurants, loading, search } = this.state;
 
         if (!loaded) {
             return <PreLoader />
         }
 
+        const searchBar = (
+            <SearchBar
+                platform="android" // necesario para que ande el onClear y le de el look and feel de la plataforma
+                showLoading={loading}
+                cancelIcon={{ type: 'font-awesome', name: 'chevron-left' }}
+                placeholder="Buscar Restaurante"
+                onChangeText={(text) => this.searchRestaurants(text)}
+                onClear={this.resetSearch.bind(this)}
+                containerStyle={styles.SearchContainer}
+                inputContainerStyle={styles.inputContainer}
+                value={search}
+            />
+        );
+
         if (!restaurants.length) {
             return (
                 <BackgroundImage source={require('../../../assets/images/FondoFood-Claro.png')}>
+                    {searchBar}
                     <RestaurantEmpty text="No hay restaurantes disponibles" />
                     <RestaurantAddButton addRestaurant={this.addRestaurant.bind(this)} />
                 </BackgroundImage>
@@ -93,7 +177,7 @@ export default class Restaurants extends Component {
 
         return (
             <BackgroundImage source={require('../../../assets/images/FondoFood-Claro.png')}>
-
+                {searchBar}
                 <FlatList // permite renderizar una lista de componentes
                     // arreglo de datos
                     data={restaurants}
@@ -101,6 +185,7 @@ export default class Restaurants extends Component {
                     renderItem={(data) => this.renderRestaurant(data.item)}
                     // siempre que se use flatlist se debe añadir el keyExtractor para que le añada un key a cada uno de los items
                     keyExtractor={(data) => data.id}
+                    ItemSeparatorComponent={this.FlatListItemSeparator}
                 />
 
                 <RestaurantAddButton addRestaurant={this.addRestaurant.bind(this)} />
@@ -111,7 +196,8 @@ export default class Restaurants extends Component {
 
 const styles = StyleSheet.create({
     title: {
-        color: '#fff'
+        color: '#fff',
+        fontWeight: 'bold'
     },
     listIconStyle: {
         marginRight: 10,
@@ -119,9 +205,25 @@ const styles = StyleSheet.create({
         color: 'rgba(242,208,160, 0.6)'
     },
     item: {
-        padding: 8,
+        paddingTop: 15,
+        paddingBottom: 15,
+        paddingHorizontal: 10,
+        backgroundColor: 'rgba(71,11,11, 0.9)',
+    },
+    line: {
+        height: 1,
+        width: "100%",
+        backgroundColor: "rgba(255,255,255, 1)"
+    },
+    SearchContainer: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingHorizontal: 10,
         backgroundColor: 'rgba(71,11,11, 0.9)',
         borderBottomColor: 'white',
         borderBottomWidth: 1,
+    },
+    inputContainer: {
+        backgroundColor: 'rgba(255,255,255, 0.9)'
     }
 });

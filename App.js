@@ -24,7 +24,6 @@ export default class App extends React.Component {
 		/* se define un observador que ejecuta la funcion que se le pasa como argumento cuando hay cambios en la autenticacion del usuario. La funcion recibe como parametro al objeto usuario. */
 		await firebase.auth().onAuthStateChanged((user) => {
 			if (user !== null) { // si el usuario esta identidicado
-				//console.log('usuario autenticado ', user);
 				this.setState({
 					isLogged: true,
 					loaded: true // componente ha cargado
@@ -41,8 +40,6 @@ export default class App extends React.Component {
 
 	render() {
 		const { isLogged, loaded } = this.state;
-
-		console.log('Render de App.js this.state: ', this.state);
 
 		if (!loaded) { // si no se ha cargado la validacion del usuario aun se retorna el preloader
 			return (<PreLoader />);

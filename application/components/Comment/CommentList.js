@@ -7,8 +7,8 @@ import CommentEmpty from "./CommentEmpty";
 import Comment from "./Comment";
 
 export default class CommentList extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             comments: [],
             loaded: false
@@ -19,7 +19,17 @@ export default class CommentList extends Component {
     }
 
     componentDidMount() {
-        firebase.database().ref(`comments/${this.props.restaurantId}`).on('value', snapshot => {
+        this._loadComments();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.restaurantId !== nextProps.restaurantId) {
+            this._loadComments(nextProps.restaurantId);
+        }
+    }
+
+    _loadComments(restaurantId = null) {
+        firebase.database().ref(`comments/${restaurantId ? restaurantId : this.props.restaurantId}`).on('value', snapshot => {
             let comments = [];
             snapshot.forEach(row => {
                 comments.push({
