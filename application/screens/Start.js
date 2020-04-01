@@ -11,7 +11,7 @@ import * as Facebook from 'expo-facebook';
 export default class Start extends Component {
 	// se define la propiedad title para mostrar en la cabecera de la navegacion
 	static navigationOptions = {
-		title: 'Nexo'
+		title: 'Restaurants App'
 	};
 
 	login() { // inicio de sesion mediante mail y password	

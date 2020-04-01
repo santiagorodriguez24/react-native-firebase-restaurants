@@ -12,3 +12,5 @@ web-report/
 
 # macOS
 .DS_Store
+application/utils/firebase.js
+application/utils/facebook.js
