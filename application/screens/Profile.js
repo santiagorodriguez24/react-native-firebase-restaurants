@@ -5,12 +5,6 @@ import { Card, Input } from "react-native-elements";
 import AppButton from "../components/AppButton";
 import Toast from 'react-native-simple-toast';
 
-/* 
-AsyncStorage permite guardar datos en el dispositivo del usuario de manera similar a un local storage
-Conviene usarlo para guardar Cualquier dato que no sea sensible. Imagina que el usuario por algún motivo 
-pierde el teléfono, si tienes datos sensibles puede ser un drama.
-*/
-
 export default class Profile extends Component {
 	constructor() {
 		super();

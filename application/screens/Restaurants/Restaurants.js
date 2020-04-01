@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BackgroundImage from "../../components/BackgroundImage";
 import PreLoader from "../../components/PreLoader";
 import { View, StyleSheet, FlatList } from 'react-native';
-import { ListItem, SearchBar, Divider } from "react-native-elements";
+import { ListItem, SearchBar } from "react-native-elements";
 import * as firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import RestaurantEmpty from "../../components/Restaurant/RestaurantEmpty";
@@ -18,12 +18,6 @@ export default class Restaurants extends Component {
             loading: false,
             search: ''
         };
-
-        //  ref={searchInput => this.search = searchInput}
-        // this.searchInput.focus();
-        // this.searchInput.blur();
-        // this.searchInput.clear();
-        // this.searchInput.cancel(); // Only available if `platform` props is "ios" | "android"
     }
 
     componentDidMount() {
@@ -55,14 +49,13 @@ export default class Restaurants extends Component {
 
             this.setState({
                 restaurants,
-                loaded: true, // ya ha cargado la aplicacion.
+                loaded: true,
                 loading: false
             });
         });
     }
 
     searchRestaurants(search) {
-        // se pone la primera letra del texto buscado en mayusculas
         this.setState({
             search: search,
             loading: search.length >= 3 ? true : false
@@ -94,6 +87,7 @@ export default class Restaurants extends Component {
     }
 
     _filterRestaurants(searchParam) {
+        // se pone la primera letra del texto buscado en mayusculas
         let search = searchParam.charAt(0).toUpperCase() + searchParam.slice(1);
 
         this.refRestaurants = firebase.database().ref().child('restaurants')

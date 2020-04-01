@@ -6,7 +6,6 @@ import Restaurant from "../../components/Restaurant/Restaurant";
 import CommentForm from "../../components/Comment/CommentForm";
 import CommentList from "../../components/Comment/CommentList";
 
-// clase para mostrar el detalle de un restaurante
 export default class DetailRestaurant extends Component {
     constructor(props) {
         super(props);
@@ -36,11 +35,9 @@ export default class DetailRestaurant extends Component {
         const { restaurant } = this.state;
         return (
             <BackgroundImage source={require('../../../assets/images/FondoFood-Claro.png')}>
-                {/* ScrollView es un componente que permite hacer Scroll en la pantalla para que no se pierdan componentes 
-                    de la vista
-                */}
+                {// ScrollView es un componente que permite hacer Scroll en la pantalla para que no se pierdan componentes de la vista 
+                }
                 <ScrollView>
-
                     {/* Detalle del restaurante: titulo, imagen, rating y botones */}
                     <Restaurant
                         goHome={this.goHome.bind(this)}
@@ -51,9 +48,8 @@ export default class DetailRestaurant extends Component {
                     {/* Detalle del restaurante: formulario de comentarios */}
                     <CommentForm restaurantId={restaurant.id} />
 
-
                     {/* Detalle del restaurante: listado de comentarios */}
-                    <CommentList restaurantId={restaurant.id} /> 
+                    <CommentList restaurantId={restaurant.id} />
                 </ScrollView>
             </BackgroundImage>
         )

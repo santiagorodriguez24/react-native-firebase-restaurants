@@ -3,16 +3,16 @@ import { View } from 'react-native';
 import BackgroundImage from "../components/BackgroundImage";
 import AppButton from "../components/AppButton";
 import * as firebase from 'firebase';
-import Toast from 'react-native-simple-toast'; // para mostrar nofificaciones
+import Toast from 'react-native-simple-toast';
 import t from 'tcomb-form-native';
-import { Card } from "react-native-elements"; // container con fondo blanco por defecto
+import { Card } from "react-native-elements";
 
 const Form = t.form.Form; // tag html utilizado para montar el formulario
 
 export default class Login extends Component {
 
 	constructor() {
-		super();	// permite utilizar todo lo que nos ofrece la clase component
+		super();
 
 		this.user = t.struct({	// se define la estructura que debe tener un objeto valido para este formulario
 			email: t.refinement(t.String, (s) => {	// se le pasa el tipo de dato que llegara y el valor 
@@ -47,13 +47,6 @@ export default class Login extends Component {
 		const validate = this.refs.form.getValue();
 
 		if (validate) {
-			// console.log("Validacion exitosa ", validate)
-			// SALIDA: 
-			// Validacion exitosa  Struct {
-			// 	"email": "santiago@gmail.com",
-			// 	"password": "sadassde",
-			//   }
-
 			// permite iniciar secion con email y password. devuelve una promesa
 			firebase.auth().signInWithEmailAndPassword(validate.email, validate.password)
 				.then(() => {
@@ -80,7 +73,6 @@ export default class Login extends Component {
 				<View>
 					<Card wrapperStyle={{ paddingLeft: 10 }} title="Iniciar sesión">
 						<Form
-							// sirve para hacer uso de this.refs y acceder al componente (this.refs.form) para ejecutar la validacion. 
 							ref="form"
 							type={this.user}
 							options={this.options}

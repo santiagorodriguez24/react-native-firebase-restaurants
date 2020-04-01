@@ -1,12 +1,11 @@
 import React, { Component } from 'react'; // component para poder crear nuestro componente
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';  // para mostar un icono
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Dimensions } from 'react-native'; // permite saber el ancho y el alto del dispositivo que esta usando la app
 
 export default class AppButton extends Component {
     render() {
         const { action, iconName, iconColor, title, bgColor, setWidth } = this.props;
-        // Dimensions.get('window') 100% de la pantalla donde se abre la app. El objeto window tiene la prop width
         const { width: windowWidth } = Dimensions.get('window');
 
         const baseStyles = {

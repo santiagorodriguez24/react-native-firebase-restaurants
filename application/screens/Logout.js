@@ -14,9 +14,9 @@ export default class Logout extends Component {
 			})
 	}
 
-	// Todos los componentes de React tienen que definir el metodo render y retornar algo. 
+
+	// Como este componente solo representara una funcionalidad y no va a renderizar contenido se retorna null 
 	render() {
-		// como este componente solo representara una funcionalidad y no va a renderizar contenido se retorna null 
 		return null;
 	}
 }

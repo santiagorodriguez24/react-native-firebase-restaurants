@@ -66,7 +66,6 @@ const pickerSelectStyles = {
   },
   inputAndroid: {
     color: 'black',
-    //backgroundColor: 'white',
   },
   placeholder: {
     color: 'black',

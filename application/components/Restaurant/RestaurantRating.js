@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Rating, Text } from "react-native-elements";
+import { Rating } from "react-native-elements";
 import * as firebase from 'firebase';
 import { View } from "react-native";
 

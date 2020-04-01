@@ -14,8 +14,6 @@ export default class CommentList extends Component {
             loaded: false
         };
 
-        // podria utilizar una referencia al servicio de google para usarlo en varias partes
-        // this.commentsRef = firebase.database().ref(`commets/${props.restaurant_id}`);
     }
 
     componentDidMount() {

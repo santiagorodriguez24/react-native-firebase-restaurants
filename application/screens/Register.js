@@ -84,7 +84,7 @@ export default class Register extends Component {
 							type={this.user}
 							options={this.options}
 							/* El metodo on change se ejecuta siempre que algun campo del formulario cambie y recibe como parametro
-							los valores dichos campos van tomando*/
+							los valores que dichos campos van tomando*/
 							onChange={(v) => this.onChange(v)}
 							value={this.state.user}
 						/>
